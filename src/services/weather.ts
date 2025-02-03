@@ -6,6 +6,7 @@ export interface WeatherData {
   humidity: number;
   location: string;
   icon: string;
+  description: string;
 }
 
 export const fetchWeather = async (location: string): Promise<WeatherData> => {
@@ -19,6 +20,7 @@ export const fetchWeather = async (location: string): Promise<WeatherData> => {
       humidity: response.data.main.humidity,
       location: response.data.name,
       icon: response.data.weather[0].icon,
+      description: response.data.weather[0].description,
     };
   } catch (error) {
     if (axios.isAxiosError(error)) {
