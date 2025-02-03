@@ -1,7 +1,8 @@
 import { useState } from "react";
-import LocationSearch from "./components/LocationSearch";
 import { useWeatherQuery } from "./hooks/useWeatherQuery";
-import { Config } from "./config";
+import LocationSearch from "./components/LocationSearch";
+import WeatherCard from "./components/WeatherCard";
+import { Box, Stack } from "@mui/material";
 
 function App() {
   const [location, setLocation] = useState("");
@@ -9,19 +10,23 @@ function App() {
 
   return (
     <>
-      <LocationSearch onSearch={setLocation} />
-
-      {isError && <p>{error.message}</p>}
-
-      <h2>{data && data.location}</h2>
-      <p>{data && data.temp}°C</p>
-      <p>{data && data.humidity}% humidity</p>
-      {data && (
-        <img
-          src={`${Config.IMG_BASE_URL}/img/wn/${data.icon}.png`}
-          alt="Weather icon"
-        />
-      )}
+      <Box
+        sx={{
+          minHeight: "100vh",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          p: 2,
+          backgroundColor: "background.default", // Use theme-based background
+        }}
+      >
+        <Stack spacing={3} sx={{ width: "100%", maxWidth: 400 }}>
+          <LocationSearch onSearch={setLocation} />
+          {isError && <p>{error.message}</p>}
+          {data && <WeatherCard data={data} />}
+        </Stack>
+      </Box>
     </>
   );
 }
