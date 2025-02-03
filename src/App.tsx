@@ -1,8 +1,9 @@
 import { useState } from "react";
+import { Box, Stack } from "@mui/material";
 import { useWeatherQuery } from "./hooks/useWeatherQuery";
 import LocationSearch from "./components/LocationSearch";
 import WeatherCard from "./components/WeatherCard";
-import { Box, Stack } from "@mui/material";
+import ErrorDisplay from "./components/shared/ErrorDisplay";
 
 function App() {
   const [location, setLocation] = useState("");
@@ -23,7 +24,11 @@ function App() {
       >
         <Stack spacing={3} sx={{ width: "100%", maxWidth: 400 }}>
           <LocationSearch onSearch={setLocation} />
-          {isError && <p>{error.message}</p>}
+          {isError && (
+            <ErrorDisplay
+              message={error?.message || "Failed to fetch weather data"}
+            />
+          )}
           {data && <WeatherCard data={data} />}
         </Stack>
       </Box>
