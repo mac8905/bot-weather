@@ -4,10 +4,11 @@ import { useWeatherQuery } from "./hooks/useWeatherQuery";
 import LocationSearch from "./components/LocationSearch";
 import WeatherCard from "./components/WeatherCard";
 import ErrorDisplay from "./components/shared/ErrorDisplay";
+import LoadingSpinner from "./components/shared/LoadingSpinner";
 
 function App() {
   const [location, setLocation] = useState("");
-  const { data, isError, error } = useWeatherQuery(location);
+  const { data, isLoading, isError, error } = useWeatherQuery(location);
 
   return (
     <>
@@ -24,11 +25,15 @@ function App() {
       >
         <Stack spacing={3} sx={{ width: "100%", maxWidth: 400 }}>
           <LocationSearch onSearch={setLocation} />
+
+          {isLoading && <LoadingSpinner />}
+
           {isError && (
             <ErrorDisplay
               message={error?.message || "Failed to fetch weather data"}
             />
           )}
+
           {data && <WeatherCard data={data} />}
         </Stack>
       </Box>
